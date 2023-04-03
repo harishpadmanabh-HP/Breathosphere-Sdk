@@ -61,6 +61,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
-    implementation project(':breathpulse-composable')
+   // implementation project(':breathpulse-composable')
+    implementation 'com.github.harishpadmanabh-HP:Brerathosphere-Sdk:1.0'
+
 
 }
