@@ -3,7 +3,6 @@ package com.hpcoding.breathpulse_composable.breathPulse
 import android.media.MediaPlayer
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -19,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hpcoding.breathpulse_composable.R
 import java.util.*
@@ -28,11 +26,9 @@ import java.util.*
 fun BreathPulseContainer(
     surfaceColor: Color = Color(0xff1f1f1f),
     pulseColor: Color = Color.Cyan,
-    isTimerEnabled: Boolean = true,
     timerTextStyle: TextStyle = MaterialTheme.typography.h4.copy(color = Color.White),
     messageTextStyle: TextStyle = MaterialTheme.typography.h6.copy(color = Color.White),
     breathConfig: BreathConfig = BreathConfig()
-
 ) {
 
     val context = LocalContext.current
@@ -43,7 +39,8 @@ fun BreathPulseContainer(
             inhale = breathConfig.inhaleTime,
             exhale = breathConfig.exhaleTime,
             inhaleHold = breathConfig.inhaleHoldTime,
-            exhaleHold = breathConfig.exhaleHoldTime
+            exhaleHold = breathConfig.exhaleHoldTime,
+            showHoldTime = breathConfig.showHoldTimer
         )
     }
 

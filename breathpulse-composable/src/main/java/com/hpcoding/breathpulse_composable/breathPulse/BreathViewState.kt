@@ -17,6 +17,9 @@ private const val FRACTION_FULL = 1f
 private const val FRACTION_ALMOST_FULL = 0.8f
 private const val FRACTION_HALF = 0.5f
 
+
+
+
 class BreathViewState(
     private val coroutineScope: CoroutineScope
 ) {
@@ -54,6 +57,9 @@ class BreathViewState(
     var exhaleHoldTime = mutableStateOf(0) // seconds
         private set
 
+    var showHoldTimer = mutableStateOf(false)
+    var isHolding = mutableStateOf(false)
+
 
     var progress = mutableStateOf(0f)
     var cyclesCompletes = mutableStateOf(0)
@@ -73,8 +79,6 @@ class BreathViewState(
     ) {
         var inhaleTimer = inhaleTime
         var exhaleTimer = exhaleTime
-
-
 
         sendMessage("Breathe In")
         coroutineScope.launch {
@@ -104,6 +108,7 @@ class BreathViewState(
     }
 
     private fun sendMessage(message: String) = coroutineScope.launch {
+        isHolding.value = message == "Hold"
         _message.send(message)
     }
 
@@ -126,7 +131,8 @@ class BreathViewState(
         inhale: Int,
         exhale: Int,
         inhaleHold: Int,
-        exhaleHold: Int
+        exhaleHold: Int,
+        showHoldTime: Boolean
     ) {
         this.apply {
             relaxationTime.value = relaxTime
@@ -135,6 +141,7 @@ class BreathViewState(
             exhaleTime.value = exhale
             inhaleHoldTime.value = inhaleHold
             exhaleHoldTime.value = exhaleHold
+            showHoldTimer.value = showHoldTime
         }
 
     }

@@ -11,12 +11,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.hpcoding.breathpulse_composable.breathPulse.BreathPulseContainer
 import com.hpcoding.brerathosphere_sdk.ui.theme.BrerathosphereSdkTheme
 
 class MainActivity : ComponentActivity() {
     val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             BrerathosphereSdkTheme {
