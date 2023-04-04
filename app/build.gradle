@@ -67,7 +67,7 @@ dependencies {
 
    // implementation 'com.github.harishpadmanabh-HP:Brerathosphere-Sdk:1.0'
 
-    implementation project(':breathpulse-composable')
+      implementation project(':breathpulse-composable')
 
 
 
