@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -17,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.hpcoding.breathpulse_composable.R
 import java.util.*
 
@@ -28,6 +31,15 @@ fun BreathPulseContainer(
     pulseColor: Color = Color.Cyan,
     timerTextStyle: TextStyle = MaterialTheme.typography.h4.copy(color = Color.White),
     messageTextStyle: TextStyle = MaterialTheme.typography.h6.copy(color = Color.White),
+    holdIconComposable: @Composable () -> Unit = {
+        Image(
+            painter = painterResource(id = R.drawable.baseline_pause_24),
+            contentDescription = "Hold Icon",
+            modifier = Modifier
+                .size(24.dp)
+                .zIndex(5f)
+        )
+    },
     breathConfig: BreathConfig = BreathConfig()
 ) {
 
@@ -97,7 +109,12 @@ fun BreathPulseContainer(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        BreathView(state = state, color = pulseColor, timerTextStyle = timerTextStyle)
+        BreathView(
+            state = state,
+            color = pulseColor,
+            timerTextStyle = timerTextStyle,
+            holdIconComposable = holdIconComposable
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 

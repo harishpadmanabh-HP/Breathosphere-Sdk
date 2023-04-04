@@ -28,7 +28,16 @@ fun BreathView(
     modifier: Modifier = Modifier,
     circleSize: Dp = 200.dp,
     color: Color = Color.Cyan,
-    timerTextStyle: TextStyle = MaterialTheme.typography.h4.copy(color = Color.White)
+    timerTextStyle: TextStyle = MaterialTheme.typography.h4.copy(color = Color.White),
+    holdIconComposable: @Composable () -> Unit = {
+        Image(
+            painter = painterResource(id = R.drawable.baseline_pause_24),
+            contentDescription = "Hold Icon",
+            modifier = Modifier
+                .size(24.dp)
+                .zIndex(5f)
+        )
+    }
 ) {
     val currentMode by state.currentMode
     val breathCircleFraction by state.breathCircleFraction
@@ -77,13 +86,7 @@ fun BreathView(
 
 
         if (state.isHolding.value && !state.showHoldTimer.value) {
-            Image(
-                painter = painterResource(id = R.drawable.baseline_pause_24),
-                contentDescription = "Hold Icon",
-                modifier = Modifier
-                    .size(24.dp)
-                    .zIndex(5f)
-            )
+            holdIconComposable()
         } else if (state.isHolding.value && state.showHoldTimer.value) {
             Text(text = holdTimer.value, style = timerTextStyle)
         }
