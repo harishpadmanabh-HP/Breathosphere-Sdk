@@ -33,6 +33,7 @@ fun BreathView(
     val currentMode by state.currentMode
     val breathCircleFraction by state.breathCircleFraction
     val timer = state.timer.collectAsState(initial = "")
+    val holdTimer = state.holdTimer.collectAsState(initial = "")
 
 
 
@@ -75,7 +76,7 @@ fun BreathView(
             Text(text = timer.value, style = timerTextStyle)
 
 
-        if (state.isHolding.value) {
+        if (state.isHolding.value && !state.showHoldTimer.value) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_pause_24),
                 contentDescription = "Hold Icon",
@@ -83,6 +84,8 @@ fun BreathView(
                     .size(24.dp)
                     .zIndex(5f)
             )
+        } else if (state.isHolding.value && state.showHoldTimer.value) {
+            Text(text = holdTimer.value, style = timerTextStyle)
         }
 
     }

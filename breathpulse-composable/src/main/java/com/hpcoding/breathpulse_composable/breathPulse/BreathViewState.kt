@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,8 +17,6 @@ import kotlinx.coroutines.launch
 private const val FRACTION_FULL = 1f
 private const val FRACTION_ALMOST_FULL = 0.8f
 private const val FRACTION_HALF = 0.5f
-
-
 
 
 class BreathViewState(
@@ -32,6 +31,9 @@ class BreathViewState(
 
     private var _timer = Channel<String>()
     val timer = _timer.receiveAsFlow()
+
+    private var _holdTimer = Channel<String>()
+    val holdTimer = _holdTimer.receiveAsFlow()
 
     private var _duaration = Channel<String>()
     val duration = _duaration.receiveAsFlow()
@@ -79,8 +81,12 @@ class BreathViewState(
     ) {
         var inhaleTimer = inhaleTime
         var exhaleTimer = exhaleTime
+        var inhaleHoldTimer = inhaleHoldTime
+        var exhaleHoldTimer = exhaleHoldTime
 
+        //Start Inhale
         sendMessage("Breathe In")
+        updateHoldTimer("") //clear hold timer
         coroutineScope.launch {
             repeat(inhaleTime) {
                 updateTimer(inhaleTimer--.toString())
@@ -88,10 +94,22 @@ class BreathViewState(
             }
         }
         breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000, easing = LinearEasing))
+
+        //------------------------------------------Start Inhale Hold---------------------------------------------
         sendMessage("Hold")
-        updateTimer("")
+        updateTimer("") //clear breath timer
+        coroutineScope.async {
+            repeat(inhaleHoldTime) {
+                updateHoldTimer(inhaleHoldTimer--.toString())
+                delay(1000L)
+            }
+
+        }
         delay(inhaleHoldTime * 1000L)
+
+        //-----------------------------------Start Exhale------------------------------------------
         sendMessage("Breathe Out")
+        updateHoldTimer("") //clear hold timer
         coroutineScope.launch {
             repeat(exhaleTime) {
                 updateTimer(exhaleTimer--.toString())
@@ -99,9 +117,19 @@ class BreathViewState(
             }
         }
         breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000, easing = LinearEasing))
+
+        //---------------------------------Start exhale hold---------------------------------------
         sendMessage("Hold")
-        updateTimer("")
+        updateTimer("") //clear breath timer
+        coroutineScope.async {
+            repeat(exhaleHoldTime) {
+                updateHoldTimer(exhaleHoldTimer--.toString())
+                delay(1000L)
+            }
+        }
         delay(exhaleHoldTime * 1000L)
+
+        //---------------------------------Track progress------------------------------------------
         cyclesCompletes.value++
         trackBreathingProgress(breathCount.value, cyclesCompletes.value)
         progress.value = trackBreathingProgress(breathCount.value, cyclesCompletes.value)
@@ -114,6 +142,10 @@ class BreathViewState(
 
     private fun updateTimer(time: String) = coroutineScope.launch {
         _timer.send(time)
+    }
+
+    private fun updateHoldTimer(time: String) = coroutineScope.launch {
+        _holdTimer.send(time)
     }
 
     private fun updateDuration(time: String) = coroutineScope.launch {
