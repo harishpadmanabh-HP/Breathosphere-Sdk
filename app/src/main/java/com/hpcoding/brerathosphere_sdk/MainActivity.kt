@@ -3,6 +3,7 @@ package com.hpcoding.brerathosphere_sdk
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,11 +15,12 @@ import com.hpcoding.breathpulse_composable.breathPulse.BreathPulseContainer
 import com.hpcoding.brerathosphere_sdk.ui.theme.BrerathosphereSdkTheme
 
 class MainActivity : ComponentActivity() {
+    val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BrerathosphereSdkTheme {
-                BreathPulseContainer()
+                BreatheAppNavGraph(viewModel = viewModel)
             }
         }
     }
