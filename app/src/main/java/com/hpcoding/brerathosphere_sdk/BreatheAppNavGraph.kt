@@ -1,7 +1,9 @@
 package com.hpcoding.brerathosphere_sdk
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,7 +28,13 @@ fun BreatheAppNavGraph(
             BreathPulseContainer(
                 surfaceColor = viewModel.breathConfig.surfaceColor,
                 pulseColor = viewModel.breathConfig.pulseColor,
-                breathConfig = viewModel.breathConfig
+                breathConfig = viewModel.breathConfig,
+                holdIconComposable = {
+                    Image(
+                        painter = painterResource(id = R.drawable.baseline_pause_24),
+                        contentDescription = ""
+                    )
+                }
             )
         }
     }
