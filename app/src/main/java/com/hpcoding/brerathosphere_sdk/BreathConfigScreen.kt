@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.view.WindowManager
+import android.widget.RadioGroup
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,6 +69,10 @@ fun BreathConfigScreen(
         }
 
         var showColorChooser by remember {
+            mutableStateOf(false)
+        }
+
+        var showHoldTime by remember {
             mutableStateOf(false)
         }
 
@@ -126,6 +132,25 @@ fun BreathConfigScreen(
         Spacer(modifier = Modifier.height(20.dp))
         Card(
             modifier = Modifier
+                .fillMaxWidth(), shape = RoundedCornerShape(12.dp),
+            backgroundColor = Color(0xff2c2c2c),
+            contentColor = Color.White
+        ) {
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(text = "Show hold timer")
+                Spacer(modifier = Modifier.height(8.dp))
+                RadioGroup(
+                    options = listOf("Yes", "No"),
+                    selected = if (showHoldTime) "Yes" else "No",
+                    setSelected = {
+                        showHoldTime = it == "Yes"
+                    })
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Card(
+            modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
                     showColorChooser = true
@@ -157,7 +182,7 @@ fun BreathConfigScreen(
         Button(
             onClick = {
                 viewModel.updateConfig(
-                    inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles, color
+                    inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles, color, showHoldTime
                 )
                 onNavigate()
             },
@@ -267,4 +292,24 @@ fun Context.findActivity(): Activity? {
         context = context.baseContext
     }
     return null
+}
+
+@Composable
+fun RadioGroup(
+    options: List<String>,
+    selected: String,
+    setSelected: (selected: String) -> Unit
+) {
+
+    Row(modifier = Modifier.fillMaxWidth()) {
+        options.forEach { option ->
+            Row(horizontalArrangement = Arrangement.Center, verticalAlignment = CenterVertically) {
+                RadioButton(selected = selected == option, onClick = {
+                    setSelected(option)
+                })
+                Text(text = option)
+            }
+        }
+    }
+
 }

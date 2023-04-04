@@ -17,10 +17,19 @@ class MainViewModel : ViewModel() {
         inhaleHold: Int,
         exhaleHold: Int,
         cycles: Int,
-        pulseColor: Color
+        pulseColor: Color,
+        showHoldTime: Boolean
     ) {
         breathConfig =
-            BreathConfig(inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles, pulseColor)
+            BreathConfig(
+                inhaleTime,
+                exhaleTime,
+                inhaleHold,
+                exhaleHold,
+                cycles,
+                pulseColor,
+                showHoldTimer = showHoldTime
+            )
 
     }
 
