@@ -15,10 +15,10 @@ Breath pulse container Jetpack compose SDk
  
  	dependencies {
           //...OTHER DEPENDANCIES
-	        implementation 'com.github.harishpadmanabh-HP:Brerathosphere-Sdk:Tag'
+	        implementation 'com.github.harishpadmanabh-HP:Brerathosphere-Sdk:1.2'
 	}
   
- Alternatively the `breathpulse-composable` module can downloaded and imported in ypur existing project.
+ Alternatively the `breathpulse-composable` module can downloaded and imported in your existing project.
 
 ## Configure breath pulse view constraints.
 
@@ -29,7 +29,7 @@ The configurations are passed through [BreathConfig class](https://github.com/ha
 
 
 [BreathPulseContainer()](https://github.com/harishpadmanabh-HP/Breathosphere-Sdk/blob/master/breathpulse-composable/src/main/java/com/hpcoding/breathpulse_composable/breathPulse/BreathPulseContainer.kt) provides complete screen elements including total duration,breath view,single inhale/exhale timer,hold timer/icon,start button,voice overs,background music.
-with custimizations options. For taking control over each single composable take a look on how its used in the above link and customize according to your own needs.
+with custimizations options. For taking control over each single composable, take a look on how its used in the above link and customize according to your own needs.
 
 The state of [BreathView](https://github.com/harishpadmanabh-HP/Breathosphere-Sdk/blob/master/breathpulse-composable/src/main/java/com/hpcoding/breathpulse_composable/breathPulse/BreathPulseView.kt) is handled by [BreathViewState](https://github.com/harishpadmanabh-HP/Breathosphere-Sdk/blob/master/breathpulse-composable/src/main/java/com/hpcoding/breathpulse_composable/breathPulse/BreathViewState.kt)
 
@@ -69,7 +69,7 @@ Usage Example
  Sample usages are done in MainActivity.kt.
  
  
- ## Happy Breathing !! Stay healthy !!
+
  
  # Happy Coding !
  
